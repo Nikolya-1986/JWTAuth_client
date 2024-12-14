@@ -8,6 +8,8 @@ import { Router, RouterLink } from '@angular/router';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { AuthService } from '../../core/services/auth.service';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -25,20 +27,20 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent {
 
-  // authService = inject(AuthService);
+  authService = inject(AuthService);
   matSnackBar = inject(MatSnackBar);
   router = inject(Router);
 
-  // isLoggedIn() {
-  //   return this.authService.isLoggedIn();
-  // }
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
-  // logout = () => {
-  //   this.authService.logout();
-  //   this.matSnackBar.open('Logout success', 'Close', {
-  //     duration: 5000,
-  //     horizontalPosition: 'center',
-  //   });
-  //   this.router.navigate(['/login']);
-  // };
+  logout = () => {
+    this.authService.logout();
+    this.matSnackBar.open('Logout success', 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+    });
+    this.router.navigate(['/login']);
+  };
 }
