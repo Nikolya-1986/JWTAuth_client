@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ILoginRequest } from '../interfaces/login.interface';
 import { IAuthResponse } from '../interfaces/auth.interface';
+import { IRegisterRequest } from '../interfaces/register.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class AuthService {
           return response;
         })
       );
+  };
+
+  register(data: IRegisterRequest): Observable<IAuthResponse> {
+    return this.http.post<IAuthResponse>(`${this.apiUrl}account/register`, data)
   };
 
   logout = (): void => {
