@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { map, Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -56,6 +56,13 @@ export class AuthService {
     if (!token) return false;
     return !this.isTokenExpired();
   };
+
+  getRoles = (): string[] | null => {
+    const token: any = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.role || null;
+  }
 
   getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
 

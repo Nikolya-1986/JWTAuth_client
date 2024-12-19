@@ -17,4 +17,7 @@ export class UserService {
 
   getDetail = (): Observable<IUserDetail> => 
     this.http.get<IUserDetail>(`${this.apiUrl}user/detail`);
+
+  getAll = (): Observable<IUserDetail[]> =>
+    this.http.get<IUserDetail[]>(`${this.apiUrl}user/userList`)
 }
