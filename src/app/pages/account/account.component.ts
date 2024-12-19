@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-account',

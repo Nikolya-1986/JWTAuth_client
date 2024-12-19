@@ -57,7 +57,7 @@ export class AuthService {
     return !this.isTokenExpired();
   };
 
-  private getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
+  getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
 
   private isTokenExpired() {
     const token = this.getToken();
