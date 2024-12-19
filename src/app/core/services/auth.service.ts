@@ -13,7 +13,7 @@ import { IRegisterRequest } from '../interfaces/register.interface';
 })
 export class AuthService {
 
-  apiUrl: string = environment.apiUrl;
+  private readonly apiUrl: string = environment.apiUrl;
   private tokenKey = 'token';
 
   constructor(private http: HttpClient) {}
