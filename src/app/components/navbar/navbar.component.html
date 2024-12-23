@@ -56,6 +56,13 @@
                                 </span>
                         </button>
                     </mat-menu>
+                    @if (userDetail?.roles.includes("Admin")) {
+                        <a mat-button routerLink="/users">
+                            <mat-icon>
+                                groups
+                            </mat-icon>
+                        </a>
+                    }
                 </div>
             </div>
         }
