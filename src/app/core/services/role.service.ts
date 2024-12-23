@@ -20,5 +20,7 @@ export class RoleService {
   
   createRole = (role: IRoleCreate) : Observable<{ message: string }> => this.http.post<{ message: string }>(`${this.apiUrl}roles/create`, role);
 
-  deleteRole = (id: string) : Observable<{ message: string }> => this.http.delete<{ message: string }>(`${this.apiUrl}roles/remove/${id}`)
+  deleteRole = (id: string) : Observable<{ message: string }> => this.http.delete<{ message: string }>(`${this.apiUrl}roles/remove/${id}`);
+
+  assingeRole = (userId: string, roleId: string) : Observable<{ message: string }> => this.http.post<{ message: string }>(`${this.apiUrl}roles/assign`, { userId, roleId })
 }
