@@ -66,6 +66,11 @@ export class AuthService {
 
   getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
 
+  forgotPassword = (email: string): Observable<IAuthResponse> =>
+    this.http.post<IAuthResponse>(`${this.apiUrl}account/forgot-password`, {
+      email,
+  });
+  
   private isTokenExpired() {
     const token = this.getToken();
     if (!token) return true;
