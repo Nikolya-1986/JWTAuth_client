@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
 
-import { RegisterComponent } from './pages/register/register.component';
+import { ResetPasswordComponent } from './pages/auth/components/reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './pages/auth/components/forget-password/forget-password.component';
+import { RegisterComponent } from './pages/auth/components/register/register.component';
 import { AccountComponent } from './pages/account/account.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './pages/auth/components/login/login.component';
+import { UsersComponent } from './pages/users/users.component';
+import { RoleComponent } from './pages/role/role.component';
 import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
-import { UsersComponent } from './pages/users/users.component';
 import { roleGuard } from './core/guards/role.guard';
-import { RoleComponent } from './pages/role/role.component';
-import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,10 @@ export const routes: Routes = [
     {
         path: 'forget-password',
         component: ForgetPasswordComponent,
+    },
+    {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
     },
     {
         path: 'users',

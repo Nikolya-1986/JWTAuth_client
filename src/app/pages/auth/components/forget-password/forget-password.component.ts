@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

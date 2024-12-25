@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { map, Observable } from 'rxjs';
 
+import { IResetPassword } from '../interfaces/reset-password.interface';
+import { IRegisterRequest } from '../interfaces/register.interface';
 import { environment } from '../../../environments/environment';
 import { ILoginRequest } from '../interfaces/login.interface';
 import { IAuthResponse } from '../interfaces/auth.interface';
-import { IRegisterRequest } from '../interfaces/register.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,11 @@ export class AuthService {
   forgotPassword = (email: string): Observable<IAuthResponse> =>
     this.http.post<IAuthResponse>(`${this.apiUrl}account/forgot-password`, {
       email,
+  });
+
+  resetPassword = (data: IResetPassword): Observable<IAuthResponse> =>
+    this.http.post<IAuthResponse>(`${this.apiUrl}account/reset-password`, {
+      data,
   });
   
   private isTokenExpired() {

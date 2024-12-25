@@ -5,13 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
-import { RoleService } from '../../core/services/role.service';
+import { RoleService } from '../../../../core/services/role.service';
 import { Observable } from 'rxjs';
-import { IRole } from '../../core/interfaces/role.interface';
+import { IRole } from '../../../../core/interfaces/role.interface';
 import { AsyncPipe } from '@angular/common';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ValidationError } from '../../core/interfaces/validation-error.interface';
+import { ValidationError } from '../../../../core/interfaces/validation-error.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
