@@ -8,6 +8,7 @@ import { IRegisterRequest } from '../interfaces/register.interface';
 import { environment } from '../../../environments/environment';
 import { ILoginRequest } from '../interfaces/login.interface';
 import { IAuthResponse } from '../interfaces/auth.interface';
+import { IChangePassword } from '../interfaces/change-password.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,10 @@ export class AuthService {
     this.http.post<IAuthResponse>(`${this.apiUrl}account/reset-password`, {
       data,
   });
+
+  changePassword = (data: IChangePassword): Observable<IAuthResponse> =>
+    this.http.post<IAuthResponse>(`${this.apiUrl}account/change-password`, data);
+
   
   private isTokenExpired() {
     const token = this.getToken();

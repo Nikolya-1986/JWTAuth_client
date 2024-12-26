@@ -10,6 +10,7 @@ import { RoleComponent } from './pages/role/role.component';
 import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { ChangePasswordComponent } from './pages/auth/components/change-password/change-password.component';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,11 @@ export const routes: Routes = [
     {
         path: 'reset-password',
         component: ResetPasswordComponent,
+    },
+    {
+        path: 'change-password',
+        component: ChangePasswordComponent,
+        canActivate: [authGuard],
     },
     {
         path: 'users',
