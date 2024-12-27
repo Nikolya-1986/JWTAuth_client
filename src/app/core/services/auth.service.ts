@@ -16,16 +16,17 @@ import { IChangePassword } from '../interfaces/change-password.interface';
 export class AuthService {
 
   private readonly apiUrl: string = environment.apiUrl;
-  private tokenKey = 'token';
+  private userKey = 'user';
 
   constructor(private http: HttpClient) {}
 
   login(data: ILoginRequest): Observable<IAuthResponse> {
-    return this.http.post<IAuthResponse>(`${this.apiUrl}account/login`, data)
+    return this.http
+      .post<IAuthResponse>(`${this.apiUrl}account/login`, data)
       .pipe(
         map((response) => {
           if (response.isSuccess) {
-            localStorage.setItem(this.tokenKey, response.token);
+            localStorage.setItem(this.userKey, JSON.stringify(response));
           }
           return response;
         })
@@ -37,7 +38,7 @@ export class AuthService {
   };
 
   logout = (): void => {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   };
 
   getUserDetail = () => {
@@ -53,20 +54,12 @@ export class AuthService {
     return userDetail;
   };
 
-  isLoggedIn = (): boolean => {
-    const token = this.getToken();
-    if (!token) return false;
-    return !this.isTokenExpired();
-  };
-
   getRoles = (): string[] | null => {
     const token: any = this.getToken();
     if (!token) return null;
     const decodedToken: any = jwtDecode(token);
     return decodedToken.role || null;
   }
-
-  getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
 
   forgotPassword = (email: string): Observable<IAuthResponse> =>
     this.http.post<IAuthResponse>(`${this.apiUrl}account/forgot-password`, {
@@ -81,6 +74,32 @@ export class AuthService {
   changePassword = (data: IChangePassword): Observable<IAuthResponse> =>
     this.http.post<IAuthResponse>(`${this.apiUrl}account/change-password`, data);
 
+  getToken = (): string | null => {
+    const user = localStorage.getItem(this.userKey);
+    if (!user) return null;
+    const userDetail: IAuthResponse = JSON.parse(user);
+    return userDetail.accessToken;
+  };
+
+  getRefreshToken = (): string | null => {
+    const user = localStorage.getItem(this.userKey);
+    if (!user) return null;
+    const userDetail: IAuthResponse = JSON.parse(user);
+    return userDetail.refreshToken;
+  };
+
+  refreshToken = (data: {
+    email: string;
+    accessToken: string;
+    refreshToken: string;
+  }): Observable<IAuthResponse> =>
+    this.http.post<IAuthResponse>(`${this.apiUrl}account/refresh-token`, data);
+
+  isLoggedIn = (): boolean => {
+    const token = this.getToken();
+    if (!token) return false;
+    return true;
+  };
   
   private isTokenExpired() {
     const token = this.getToken();
@@ -88,6 +107,6 @@ export class AuthService {
     const decoded = jwtDecode(token);
     const isTokenExpired = Date.now() >= decoded['exp']! * 1000;
     if (isTokenExpired) this.logout();
-    return isTokenExpired;
+    return true;
   }
 }

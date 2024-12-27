@@ -1,19 +1,53 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 import { inject } from '@angular/core';
+
 import { AuthService } from '../services/auth.service';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const accessToken: string | null = authService.getToken();
-  if (accessToken) {
-    const cloned = req.clone({
-      headers: req.headers.set(
-        'Authorization',
-        'Bearer ' + accessToken,
-      )
-    });
-    return next(cloned)
-  };
-  
-  return next(req);
+  const router = inject(Router);
+
+  console.log(authService.getToken());
+
+  if (!authService.getToken()) return next(req);
+
+  const cloned = req.clone({
+    headers: req.headers.set(
+      'Authorization',
+      'Bearer ' + authService.getToken()
+    ),
+  });
+
+  return next(cloned).pipe(
+    catchError((err: HttpErrorResponse) => {
+      if (err.status === 401) {
+        authService
+          .refreshToken({
+            email: authService.getUserDetail()?.email,
+            accessToken: authService.getToken() || '',
+            refreshToken: authService.getRefreshToken() || '',
+          })
+          .subscribe({
+            next: (response) => {
+              if (response.isSuccess) {
+                localStorage.setItem('user', JSON.stringify(response));
+                const cloned = req.clone({
+                  setHeaders: {
+                    Authorization: `Bearer ${response.accessToken}`,
+                  },
+                });
+                location.reload();
+              }
+            },
+            error: () => {
+              authService.logout();
+              router.navigate(['/login']);
+            },
+          });
+      }
+      return throwError(err);
+    })
+  );
 };
